@@ -1,23 +1,25 @@
-package memtable
+package skiplist
 
-import "leveldb-go/internal_key"
+import (
+	"leveldb-go/internal_key"
+)
 
 const (
 	MaxLevel int = 16
 )
 
 type node struct {
-	batch *Batch
-	next  []*node
+	nk   *NodeKey
+	next []*node
 }
 
-func newNode(key *Batch, level int) *node {
+func newNode(key *NodeKey, level int) *node {
 	if level > MaxLevel {
 		panic("invalid level: out of max level")
 	}
 	return &node{
-		batch: key,
-		next:  make([]*node, level),
+		nk:   key,
+		next: make([]*node, level),
 	}
 }
 
@@ -36,18 +38,18 @@ func (n *node) setNext(level int, next *node) {
 }
 
 func (n *node) getUKey() []byte {
-	return n.batch.internalKey.UKey
+	return n.nk.internalKey.UKey
 }
 
 func (n *node) updateUValue(seqNumber uint64, uValue []byte) {
-	n.batch.internalKey.SeqNumber = seqNumber
-	n.batch.uValue = uValue
+	n.nk.internalKey.SeqNumber = seqNumber
+	n.nk.uValue = uValue
 }
 
 func (n *node) getSeqNumber() uint64 {
-	return n.batch.internalKey.SeqNumber
+	return n.nk.internalKey.SeqNumber
 }
 
 func (n *node) getValueType() internal_key.ValueType {
-	return n.batch.internalKey.VT
+	return n.nk.internalKey.VT
 }

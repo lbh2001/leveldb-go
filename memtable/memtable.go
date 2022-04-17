@@ -1,16 +1,19 @@
 package memtable
 
-import "sync"
+import (
+	"leveldb-go/skiplist"
+	"sync"
+)
 
 type MemTable struct {
-	sl       *SkipList
+	sl       *skiplist.SkipList
 	memUsage uint64
 	sync.Mutex
 }
 
 func NewMemTable() *MemTable {
 	return &MemTable{
-		sl:       newSkipList(),
+		sl:       skiplist.NewSkipList(),
 		memUsage: uint64(0),
 	}
 }

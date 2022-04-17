@@ -3,7 +3,6 @@ package wal
 import (
 	"encoding/binary"
 	"io"
-	"leveldb-go/memtable"
 )
 
 const (
@@ -55,7 +54,7 @@ func (lw *LogWriter) setHeader(isLast bool) {
 		}
 	}
 	binary.BigEndian.PutUint16(lw.buf[lw.low+4:lw.low+6], uint16(lw.high-lw.low-headerSize))
-	binary.BigEndian.PutUint32(lw.buf[lw.low:lw.low+4], memtable.NewCRC(lw.buf[lw.low+6:lw.high]).Value())
+	binary.BigEndian.PutUint32(lw.buf[lw.low:lw.low+4], NewCRC(lw.buf[lw.low+6:lw.high]).Value())
 }
 
 func (lw *LogWriter) write() {

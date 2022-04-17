@@ -4,7 +4,7 @@ This file comes from: https://github.com/syndtr/goleveldb/blob/2ae1ddf74ef702025
 
 */
 
-package memtable
+package wal
 
 import "hash/crc32"
 

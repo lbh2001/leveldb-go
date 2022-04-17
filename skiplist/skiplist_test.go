@@ -1,4 +1,4 @@
-package memtable
+package skiplist
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -9,7 +9,7 @@ import (
 )
 
 func TestSkipListInsert(t *testing.T) {
-	s := newSkipList()
+	s := NewSkipList()
 	insertDatas := []struct {
 		uKey      []byte
 		uValue    []byte
@@ -62,7 +62,7 @@ func TestSkipListInsert(t *testing.T) {
 }
 
 func TestSkipListDelete(t *testing.T) {
-	s := newSkipList()
+	s := NewSkipList()
 	insertDatas := []struct {
 		uKey      []byte
 		uValue    []byte
@@ -103,7 +103,7 @@ func TestSkipListDelete(t *testing.T) {
 }
 
 func TestAvoidDirtyRead(t *testing.T) {
-	s := newSkipList()
+	s := NewSkipList()
 	insertDatas := []struct {
 		uKey      []byte
 		uValue    []byte
@@ -143,7 +143,7 @@ func TestAvoidDirtyRead(t *testing.T) {
 func BenchmarkSkipListConcurrency(b *testing.B) {
 	seq := version.NewAndInitialSeqNumber()
 	b.StartTimer()
-	s := newSkipList()
+	s := NewSkipList()
 	var wg sync.WaitGroup
 	for i := 0; i < b.N; i++ {
 		wg.Add(1)
@@ -162,7 +162,7 @@ func BenchmarkSkipListConcurrency(b *testing.B) {
 func BenchmarkSkipListSerial(b *testing.B) {
 	seq := version.NewAndInitialSeqNumber()
 	b.StartTimer()
-	s := newSkipList()
+	s := NewSkipList()
 	for i := 0; i < b.N; i++ {
 		seqNumber := seq.GetSeqNumberAmount()
 		key := []byte("key" + strconv.Itoa(i))
