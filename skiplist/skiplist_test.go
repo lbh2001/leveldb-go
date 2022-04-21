@@ -140,6 +140,9 @@ func TestAvoidDirtyRead(t *testing.T) {
 }
 
 // benchmark
+
+const BenchmarkDataLength = 1000000
+
 func BenchmarkSkipListConcurrency(b *testing.B) {
 	seq := version.NewAndInitialSeqNumber()
 	b.StartTimer()
